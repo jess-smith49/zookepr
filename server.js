@@ -10,6 +10,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+//allows these files to be readily available//static method makes files in public static resources//can be accessed without having a specific endpoint
+app.use(express.static('public'));
 
 
 //create route that front-end can request data from
@@ -127,6 +129,22 @@ app.post('/api/animals', (req, res) => {
     const animal = createNewAnimal(req.body, animals);
     res.json(animal);
   }
+});
+
+
+//GETTING THE HTML FILES
+//creating rout to index.html//the slash brings us the the root route aka index.html
+//using path to ensure its finding correct location for HTML code to be displayed in browser
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+//getting the other html pages
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
 });
 
 
